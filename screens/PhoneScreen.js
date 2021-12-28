@@ -9,8 +9,10 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function NameScreen({ navigation }) {
-  const [phoneNum, onChangeNum] = React.useState(null);
+export default function NameScreen({ route, navigation }) {
+  const { info } = route.params;
+
+  const [phone, onChangeNum] = React.useState(info[1]);
 
   return (
     <View style={styles.container}>
@@ -31,14 +33,23 @@ export default function NameScreen({ navigation }) {
           <TextInput
             style={styles.input}
             onChangeText={onChangeNum}
-            value={phoneNum}
-            placeholder="(208) 206-5039"
+            value={phone}
+            placeholder="Phone number"
+            keyboardType="phone-pad"
             textContentType="telephoneNumber"
           />
         </View>
       </View>
 
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          navigation.navigate({
+            name: "Home",
+            params: { phone: phone },
+            merge: true,
+          });
+        }}
+      >
         <View style={styles.buttonContainer}>
           <Text style={styles.button}>Update</Text>
         </View>
@@ -68,8 +79,6 @@ const styles = StyleSheet.create({
   inputSection: {
     flex: 2,
     flexDirection: "row",
-    justifyContent: "space-between",
-    fontSize: 14,
   },
   inputContainer: {
     flexDirection: "column",
@@ -82,7 +91,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingBottom: 0,
     fontWeight: "bold",
-    color: "#B3B3B3"
+    color: "#B3B3B3",
   },
   input: {
     flex: 1,

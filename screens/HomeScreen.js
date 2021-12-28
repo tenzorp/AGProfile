@@ -12,7 +12,29 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const profPic = require("../assets/profPic.jpg");
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({ navigation, route }) {
+  const [names, setName] = React.useState("Micah Thomas");
+  const [phone, setPhone] = React.useState("(208) 206-5039");
+  const [email, setEmail] = React.useState("micahsmith@gmail.com");
+  const [about, setAbout] = React.useState(
+    "Hi my name is Mica Smith. I am from Mesa but go to school in Salt Lake City. \nI make this drive all the time and have plenty of room."
+  );
+
+  React.useEffect(() => {
+    if (route.params?.name) {
+      setName(route.params.name);
+    }
+    if (route.params?.phone) {
+      setPhone(route.params.phone);
+    }
+    if (route.params?.email) {
+      setEmail(route.params.email);
+    }
+    if (route.params?.about) {
+      setAbout(route.params.about);
+    }
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -42,68 +64,46 @@ export default function HomeScreen({ navigation }) {
       </View>
 
       <View style={styles.lowerContainer}>
-        {infoComponent("Name", "Micah Smith", "EditName", navigation)}
-        {infoComponent("Phone", "(208) 206-5039", "EditPhone", navigation)}
-        {infoComponent(
-          "Email",
-          "micahsmith@gmail.com",
-          "EditEmail",
-          navigation
-        )}
-        {infoComponent(
-          "Tell us about yourself",
-          "Hi my name is Mica Smith. I am from Mesa but go to school in Salt Lake City. \nI make this drive all the time and have plenty",
-          "EditAbout", navigation
-        )}
+        {infoComponent("Name", names, "EditName", navigation, [names, phone, email, about])}
+        {infoComponent("Phone", phone, "EditPhone", navigation, [names, phone, email, about])}
+        {infoComponent("Email", email, "EditEmail", navigation, [names, phone, email, about])}
+        {infoComponent("Tell us about yourself", about, "EditAbout", navigation, [names, phone, email, about])}
       </View>
       <StatusBar barStyle="dark-content" />
     </View>
   );
 }
 
-/* probably could've used a flat list here... but tis too late */
-function infoComponent(title, info, destination, nav) {
-  if (title == "Tell us about yourself") {
-    return (
-      <TouchableWithoutFeedback onPress={() => nav.navigate(destination)}>
-        <View style={styles.infoContainer2}>
-          <View style={{ flexShrink: 1 }}>
-            <Text style={styles.infoHeader}>{title}</Text>
-            <Text numberOfLines={3} style={styles.infoText}>
-              {info}
-            </Text>
-          </View>
-          <View style={{ alignSelf: "center" }}>
-            <AntDesign
-              name="right"
-              size={24}
-              color="#B3B3B3"
-              style={{ padding: 10, flexBasis: 50 }}
-            />
-          </View>
+/* probably could've used a flat list here instead... but tis too late */
+function infoComponent(title, info, destination, nav, state) {
+  return (
+    <TouchableWithoutFeedback
+      onPress={() => nav.navigate(destination, { info: state })}
+    >
+      <View
+        style={
+          title == "Tell us about yourself"
+            ? styles.infoContainer2
+            : styles.infoContainer
+        }
+      >
+        <View style={{ flexShrink: 1 }}>
+          <Text style={styles.infoHeader}>{title}</Text>
+          <Text numberOfLines={3} style={styles.infoText}>
+            {info}
+          </Text>
         </View>
-      </TouchableWithoutFeedback>
-    );
-  } else {
-    return (
-      <TouchableWithoutFeedback onPress={() => nav.navigate(destination)}>
-        <View style={styles.infoContainer}>
-          <View style={{ flexShrink: 1 }}>
-            <Text style={styles.infoHeader}>{title}</Text>
-            <Text style={styles.infoText}>{info}</Text>
-          </View>
-          <View style={{ alignSelf: "center" }}>
-            <AntDesign
-              name="right"
-              size={24}
-              color="#B3B3B3"
-              style={{ padding: 10, flexBasis: 50 }}
-            />
-          </View>
+        <View style={{ alignSelf: "center" }}>
+          <AntDesign
+            name="right"
+            size={24}
+            color="#B3B3B3"
+            style={{ padding: 10, flexBasis: 50 }}
+          />
         </View>
-      </TouchableWithoutFeedback>
-    );
-  }
+      </View>
+    </TouchableWithoutFeedback>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -127,10 +127,10 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     alignSelf: "center",
+    overflow: "hidden",
     width: 200,
     height: 200,
     borderRadius: 100,
-    overflow: "hidden",
     borderColor: "#446DDE",
     borderWidth: 6,
     margin: 10,
@@ -151,6 +151,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     height: 60,
   },
+  /* larger section for about */
   infoContainer2: {
     flexDirection: "row",
     justifyContent: "space-between",

@@ -18,7 +18,7 @@ export default function App() {
         initialRouteName="Home"
         screenOptions={{ headerShown: false }} /* could not figure out how to make header icons blue, sorry! */
       >
-        <Stack.Screen name="Profile" component={HomeScreen} />
+        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="EditName" component={NameScreen} />
         <Stack.Screen name="EditPhone" component={PhoneScreen} />
         <Stack.Screen name="EditEmail" component={EmailScreen} />

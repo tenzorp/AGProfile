@@ -9,9 +9,11 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function NameScreen({ navigation }) {
-  const [firstName, onChangeFirst] = React.useState(null);
-  const [lastName, onChangeLast] = React.useState(null);
+export default function NameScreen({ route, navigation }) {
+  const { info } = route.params;
+
+  const [firstName, onChangeFirst] = React.useState(info[0].split(" ")[0]);
+  const [lastName, onChangeLast] = React.useState(info[0].split(" ")[1]);
 
   return (
     <View style={styles.container}>
@@ -49,7 +51,15 @@ export default function NameScreen({ navigation }) {
         </View>
       </View>
 
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          navigation.navigate({
+            name: "Home",
+            params: { name: firstName.concat(" ", lastName) },
+            merge: true,
+          });
+        }}
+      >
         <View style={styles.buttonContainer}>
           <Text style={styles.button}>Update</Text>
         </View>
@@ -93,7 +103,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingBottom: 0,
     fontWeight: "bold",
-    color: "#B3B3B3"
+    color: "#B3B3B3",
   },
   input: {
     flex: 1,
