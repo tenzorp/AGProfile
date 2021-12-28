@@ -9,8 +9,10 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function EmailScreen({ navigation }) {
-  const [email, onChangeEmail] = React.useState(null);
+export default function EmailScreen({ route, navigation }) {
+  const { info } = route.params;
+
+  const [email, onChangeEmail] = React.useState(info[2]);
 
   return (
     <View style={styles.container}>
@@ -38,7 +40,15 @@ export default function EmailScreen({ navigation }) {
         </View>
       </View>
 
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          navigation.navigate({
+            name: "Home",
+            params: { email: email },
+            merge: true,
+          });
+        }}
+      >
         <View style={styles.buttonContainer}>
           <Text style={styles.button}>Update</Text>
         </View>
@@ -68,8 +78,6 @@ const styles = StyleSheet.create({
   inputSection: {
     flex: 2,
     flexDirection: "row",
-    justifyContent: "space-between",
-    fontSize: 14,
   },
   inputContainer: {
     flexDirection: "column",
@@ -82,7 +90,7 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingBottom: 0,
     fontWeight: "bold",
-    color: "#B3B3B3"
+    color: "#B3B3B3",
   },
   input: {
     flex: 1,

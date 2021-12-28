@@ -9,8 +9,10 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
-export default function AboutScreen({ navigation }) {
-  const [text, onChangeText] = React.useState(null);
+export default function AboutScreen({ route, navigation }) {
+  const { info } = route.params;
+
+  const [text, onChangeText] = React.useState(info[3]);
 
   return (
     <View style={styles.container}>
@@ -38,7 +40,15 @@ export default function AboutScreen({ navigation }) {
         </View>
       </View>
 
-      <TouchableWithoutFeedback>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          navigation.navigate({
+            name: "Home",
+            params: { about: text },
+            merge: true,
+          });
+        }}
+      >
         <View style={styles.buttonContainer}>
           <Text style={styles.button}>Update</Text>
         </View>
