@@ -34,7 +34,7 @@ export default function NameScreen({ route, navigation }) {
             style={styles.input}
             onChangeText={onChangeNum}
             value={phone}
-            placeholder="Phone number"
+            placeholder="(123) 456-7890"
             keyboardType="phone-pad"
             textContentType="telephoneNumber"
           />

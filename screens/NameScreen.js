@@ -35,7 +35,7 @@ export default function NameScreen({ route, navigation }) {
             style={styles.input}
             onChangeText={onChangeFirst}
             value={firstName}
-            placeholder="Micah"
+            placeholder="Marty"
             textContentType="givenName"
           />
         </View>
@@ -45,7 +45,7 @@ export default function NameScreen({ route, navigation }) {
             style={styles.input}
             onChangeText={onChangeLast}
             value={lastName}
-            placeholder="Smith"
+            placeholder="McFly"
             textContentType="familyName"
           />
         </View>

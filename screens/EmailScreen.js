@@ -34,7 +34,7 @@ export default function EmailScreen({ route, navigation }) {
             style={styles.input}
             onChangeText={onChangeEmail}
             value={email}
-            placeholder="micahsmith@gmail.com"
+            placeholder="username@anymail.com"
             textContentType="emailAddress"
           />
         </View>
